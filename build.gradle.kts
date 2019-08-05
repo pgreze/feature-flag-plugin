@@ -16,6 +16,13 @@ allprojects {
     }
 }
 
+// Allow to run composite-build task in this project
+tasks.register("publishToMavenLocal") {
+    dependsOn(gradle.includedBuild("feature-switch-plugin").task(":publishToMavenLocal"))
+    group = "Publishing tasks"
+    description = "Publishes all Maven publications to the local Maven cache."
+}
+
 tasks.register("clean", type = Delete::class) {
     delete(rootProject.buildDir)
 }

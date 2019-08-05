@@ -1,12 +1,14 @@
-repositories {
-    google()
-    jcenter()
-}
+import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
-    `kotlin-dsl`
+    kotlin("jvm") version "1.3.21"
     id("java-gradle-plugin")
+    `maven-publish`
 }
+
+group = "com.github.pgreze"
+// TODO: use environment variable
+version = "0.1"
 
 gradlePlugin {
     plugins {
@@ -17,8 +19,14 @@ gradlePlugin {
     }
 }
 
+repositories {
+    google()
+    jcenter()
+}
+
 dependencies {
     implementation(gradleApi())
+    implementation(kotlin("stdlib-jdk7", KotlinCompilerVersion.VERSION))
 
     implementation("com.android.tools.build:gradle:3.4.2")
     implementation("com.squareup:javapoet:1.11.1")

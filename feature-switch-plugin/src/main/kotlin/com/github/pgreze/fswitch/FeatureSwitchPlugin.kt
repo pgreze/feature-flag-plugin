@@ -15,7 +15,8 @@ class FeatureSwitchPlugin : Plugin<Project> {
         project.extensions.create("fswitch", FeatureSwitchExtension::class.java)
 
         project.plugins.all {
-            when (this) {
+            // From butterknife plugin https://bit.ly/2KnzVbo
+            when (it) {
                 is FeaturePlugin -> {
                     project.extensions[FeatureExtension::class].run {
                         setupTask(project, featureVariants)
@@ -39,26 +40,25 @@ class FeatureSwitchPlugin : Plugin<Project> {
     private fun setupTask(project: Project, variants: DomainObjectSet<out BaseVariant>) {
         val ext = project.extensions.getByType(FeatureSwitchExtension::class.java)
 
-        variants.all {
+        variants.all { variant ->
             val output = project.buildDir
-                .resolve("generated/source/fswitch/${dirName}")
+                .resolve("generated/source/fswitch/${variant.dirName}")
 
-            println("Generate switchs for ${ext.switchs} variant=${name}")
+            println("Generate switchs for ${ext.switchs} variant=${variant.name}")
 
             val task = project.tasks.create(
-                "generate${name.capitalize()}FeatureSwitchs",
+                "generate${variant.name.capitalize()}FeatureSwitchs",
                 FeatureSwitchGenerator::class.java
             ) {
-                outputDir = output
-                variantName = this@all.name
-                switchs = ext.switchs
+                it.outputDir = output
+                it.variantName = variant.name
+                it.switchs = ext.switchs
             }
 
-            registerJavaGeneratingTask(task, output)
+            variant.registerJavaGeneratingTask(task, output)
         }
     }
 }
 
-private operator fun <T : Any> ExtensionContainer.get(type: KClass<T>): T {
-    return getByType(type.java)
-}
+private operator fun <T : Any> ExtensionContainer.get(type: KClass<T>): T =
+    getByType(type.java)
