@@ -51,6 +51,10 @@ class FeatureSwitchPlugin : Plugin<Project> {
                 FeatureSwitchGenerator::class.java
             ) {
                 it.outputDir = output
+                it.applicationId = listOfNotNull(
+                    variant.mergedFlavor.applicationId,
+                    variant.buildType.applicationIdSuffix
+                ).joinToString()
                 it.variantName = variant.name
                 it.userId = System.getProperty("user.name")
                 it.switchs = ext.switchs

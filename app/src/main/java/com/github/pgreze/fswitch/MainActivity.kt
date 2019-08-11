@@ -1,11 +1,11 @@
 package com.github.pgreze.fswitch
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu
 import android.view.MenuItem
-import generated.Switchs
+import androidx.appcompat.app.AppCompatActivity
+import com.github.pgreze.fswitch.fswitch.Switchs
+import com.google.android.material.snackbar.Snackbar
 
 import kotlinx.android.synthetic.main.activity_main.*
 

@@ -16,6 +16,9 @@ open class FeatureSwitchGenerator : DefaultTask() {
     var outputDir: File? = null
 
     @get:Input
+    var applicationId: String? = null
+
+    @get:Input
     var variantName: String? = null
 
     /** From System properties */
@@ -39,7 +42,7 @@ open class FeatureSwitchGenerator : DefaultTask() {
             switchsFile.addField(field)
         }
 
-        JavaFile.builder("generated", switchsFile.build())
+        JavaFile.builder("$applicationId.fswitch", switchsFile.build())
             .build()
             .writeTo(outputDir)
     }
