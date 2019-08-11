@@ -52,6 +52,7 @@ class FeatureSwitchPlugin : Plugin<Project> {
             ) {
                 it.outputDir = output
                 it.variantName = variant.name
+                it.userId = System.getProperty("user.name")
                 it.switchs = ext.switchs
             }
 

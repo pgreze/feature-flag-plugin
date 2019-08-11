@@ -18,6 +18,10 @@ open class FeatureSwitchGenerator : DefaultTask() {
     @get:Input
     var variantName: String? = null
 
+    /** From System properties */
+    @get:Input
+    var userId: String? = null
+
     @get:Input
     var switchs: Map<String, String> = emptyMap()
 
@@ -30,7 +34,7 @@ open class FeatureSwitchGenerator : DefaultTask() {
         switchs.entries.forEach { (key, value) ->
             val field = FieldSpec.builder(Boolean::class.java, key)
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL)
-                .initializer((variantName == value).toString())
+                .initializer(resolveSwitch(value).toString())
                 .build()
             switchsFile.addField(field)
         }
@@ -39,4 +43,13 @@ open class FeatureSwitchGenerator : DefaultTask() {
             .build()
             .writeTo(outputDir)
     }
+
+    private fun resolveSwitch(value: String): Boolean =
+        value.split("-").any { condition ->
+            if (condition.startsWith("@")) {
+                condition.substring(1) == userId
+            } else {
+                condition == variantName
+            }
+        }
 }
