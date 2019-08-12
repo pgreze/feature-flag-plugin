@@ -8,4 +8,6 @@ and plug it with Android Gradle plugin.
 
 ## TODO
 
-- support multiple conditions with product variant
+- test with android-library and groovy syntax
+- improve DSL avoiding mapOf
+- write plugin tests

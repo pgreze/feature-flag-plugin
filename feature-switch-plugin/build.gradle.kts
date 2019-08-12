@@ -30,4 +30,7 @@ dependencies {
 
     implementation("com.android.tools.build:gradle:3.4.2")
     implementation("com.squareup:javapoet:1.11.1")
+
+    testImplementation("junit:junit:4.12")
+    testImplementation("com.google.truth:truth:1.0")
 }

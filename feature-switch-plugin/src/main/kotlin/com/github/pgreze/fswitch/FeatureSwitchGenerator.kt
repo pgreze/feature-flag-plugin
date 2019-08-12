@@ -8,6 +8,7 @@ import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 import java.io.File
+import java.util.*
 import javax.lang.model.element.Modifier
 
 open class FeatureSwitchGenerator : DefaultTask() {
@@ -51,9 +52,21 @@ open class FeatureSwitchGenerator : DefaultTask() {
     private fun resolveSwitch(value: String): Boolean =
         value.split("-").any { condition ->
             if (condition.startsWith("@")) {
-                condition.substring(1) == userId
-            } else {
+                return@any condition.substring(1) == userId
+            }
+
+            val tokens = condition.camelCaseTokens()
+            if (tokens.size > 1) {
+                // Match this exact variantName
                 condition == variantName
+            } else {
+                // Match any part of variant including it
+                condition in variantName!!.camelCaseTokens()
             }
         }
 }
+
+internal fun String.camelCaseTokens(): List<String> =
+    // See https://stackoverflow.com/a/14816052
+    split("(?<=\\p{Ll})(?=\\p{Lu})|(?<=\\p{L})(?=\\p{Lu}\\p{Ll})".toRegex())
+        .map { it.toLowerCase(Locale.US) }

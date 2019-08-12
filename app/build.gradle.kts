@@ -27,11 +27,39 @@ configure<AppExtension> {
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    // Add 1 extra buildType
+    buildTypes {
+        register("beta") {
+            initWith(getByName("debug"))
+            applicationIdSuffix = ".beta"
+        }
+    }
+
+    // Add 2 product flavor dimensions
+    flavorDimensions("store", "version")
+    productFlavors {
+        register("google") {
+            dimension = "store"
+        }
+        register("amazon") {
+            dimension = "store"
+        }
+        register("huawei") {
+            dimension = "store"
+        }
+        register("demo") {
+            dimension = "version"
+        }
+        register("full") {
+            dimension = "version"
+        }
+    }
 }
 
 configure<FeatureSwitchExtension> {
     switchs = mapOf(
-        "logs" to "debug",
+        "logs" to "debug-google-amazonFullRelease",
         "analytics" to "release"
     )
 }

@@ -44,17 +44,14 @@ class FeatureSwitchPlugin : Plugin<Project> {
             val output = project.buildDir
                 .resolve("generated/source/fswitch/${variant.dirName}")
 
-            println("Generate switchs for ${ext.switchs} variant=${variant.name}")
-
             val task = project.tasks.create(
                 "generate${variant.name.capitalize()}FeatureSwitchs",
                 FeatureSwitchGenerator::class.java
             ) {
                 it.outputDir = output
-                it.applicationId = listOfNotNull(
-                    variant.mergedFlavor.applicationId,
-                    variant.buildType.applicationIdSuffix
-                ).joinToString()
+                // Don't consider variant.buildType.applicationIdSuffix,
+                // if package is not constant it will not compile for all variants.
+                it.applicationId = variant.mergedFlavor.applicationId
                 it.variantName = variant.name
                 it.userId = System.getProperty("user.name")
                 it.switchs = ext.switchs
