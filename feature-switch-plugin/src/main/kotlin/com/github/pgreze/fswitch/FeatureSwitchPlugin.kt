@@ -10,8 +10,16 @@ import kotlin.reflect.KClass
 
 class FeatureSwitchPlugin : Plugin<Project> {
 
+    companion object {
+        const val EXTENSION_NAME = "featureSwitchs"
+    }
+
     override fun apply(project: Project) {
-        project.extensions.create("featureSwitchs", FeatureSwitchExtension::class.java)
+        // Init extension task
+        project.extensions
+            .create(EXTENSION_NAME, FeatureSwitchExtension::class.java)
+            // Init collection
+            .switchs = project.container(FeatureSwitch::class.java)
 
         project.plugins.all {
             // From butterknife plugin https://bit.ly/2KnzVbo
@@ -42,6 +50,10 @@ class FeatureSwitchPlugin : Plugin<Project> {
         variants.all { variant ->
             val output = project.buildDir
                 .resolve("generated/source/fswitch/${variant.dirName}")
+            // TODO: investigate running after process*Manifest still before generate*Sources
+            val packageId = ext.packageId
+                ?: variant.mergedFlavor.applicationId
+                ?: throw NullPointerException("Missing packageId in $EXTENSION_NAME")
 
             val task = project.tasks.create(
                 "generate${variant.name.capitalize()}FeatureSwitchs",
@@ -50,10 +62,10 @@ class FeatureSwitchPlugin : Plugin<Project> {
                 it.outputDir = output
                 // Don't consider variant.buildType.applicationIdSuffix,
                 // if package is not constant it will not compile for all variants.
-                it.applicationId = ext.packageId ?: variant.mergedFlavor.applicationId
+                it.packageId = packageId
                 it.variantName = variant.name
                 it.userId = System.getProperty("user.name")
-                it.switchs = ext.switchs
+                it.switchs = ext.switchs.asMap.values.toSet()
             }
 
             variant.registerJavaGeneratingTask(task, output)

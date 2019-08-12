@@ -14,37 +14,39 @@ import javax.lang.model.element.Modifier
 open class FeatureSwitchGenerator : DefaultTask() {
 
     @get:OutputDirectory
-    var outputDir: File? = null
+    lateinit var outputDir: File
 
     @get:Input
-    var applicationId: String? = null
+    lateinit var packageId: String
 
     @get:Input
-    var variantName: String? = null
+    lateinit var variantName: String
 
     /** From System properties */
     @get:Input
-    var userId: String? = null
+    lateinit var userId: String
 
     @get:Input
-    var switchs: Map<String, String> = emptyMap()
+    lateinit var switchs: Set<FeatureSwitch>
 
     @TaskAction
     fun execute() {
+        // TODO: add file comments with generated code warnings and lib info
         val switchsFile = TypeSpec
                 .classBuilder("Switchs")
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
 
-        switchs.entries.forEach { (key, value) ->
-            val field = FieldSpec.builder(Boolean::class.java, key)
+        switchs.forEach { switch ->
+            val field = FieldSpec.builder(Boolean::class.java, switch.name)
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL)
                 // Boolean.parseBoolean is disabling ConstantConditionIf lint
-                .initializer("Boolean.parseBoolean(\"${resolveSwitch(value)}\")")
+                .initializer("Boolean.parseBoolean(\"${resolveSwitch(switch.conditions!!)}\")")
+                .apply { switch.description?.let { addJavadoc("$it\n") } }
                 .build()
             switchsFile.addField(field)
         }
 
-        JavaFile.builder("$applicationId.fswitch", switchsFile.build())
+        JavaFile.builder("$packageId.fswitch", switchsFile.build())
             .build()
             .writeTo(outputDir)
     }
@@ -61,7 +63,7 @@ open class FeatureSwitchGenerator : DefaultTask() {
                 condition == variantName
             } else {
                 // Match any part of variant including it
-                condition in variantName!!.camelCaseTokens()
+                condition in variantName.camelCaseTokens()
             }
         }
 }

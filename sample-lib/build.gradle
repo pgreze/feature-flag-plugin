@@ -16,7 +16,9 @@ android {
 
     // Add 1 extra buildType
     buildTypes {
-        beta {}
+        beta {
+            buildConfigField "boolean", "TEST", "true"
+        }
     }
 
     // Add 2 product flavor dimensions
@@ -31,6 +33,14 @@ android {
 }
 
 featureSwitchs {
+    // Mandatory for non application consumers
     packageId "com.example.lib"
-    switchs = ["hello": "world"]
+
+    // DSL style
+    switchs {
+        "logs" { conditions = "debug" }
+    }
+
+    // Build config style
+    fswitch "analytics", "release", "My Javadoc"
 }

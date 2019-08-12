@@ -8,6 +8,6 @@ and plug it with Android Gradle plugin.
 
 ## TODO
 
-- test with android-library and groovy syntax
-- improve DSL avoiding mapOf
+- rename switch (reserved keyword in Java) to flag and rename fswitch function
+- work on compilation avoidance and late generation compared to build config?
 - write plugin tests

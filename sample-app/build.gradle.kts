@@ -12,7 +12,7 @@ plugins {
 configure<AppExtension> {
     setCompileSdkVersion(29)
     defaultConfig {
-        applicationId = "com.github.pgreze.fswitch"
+        applicationId = "com.example.app"
         setMinSdkVersion(21)
         setTargetSdkVersion(29)
         versionCode = 1
@@ -50,10 +50,20 @@ configure<AppExtension> {
 }
 
 configure<FeatureSwitchExtension> {
-    switchs = mapOf(
-        "logs" to "debug-google-amazonFullRelease",
-        "analytics" to "release"
-    )
+    // DSL style
+    switchs {
+        // Only create is expected, register is not triggered by asMap
+        create("logs") {
+            conditions = "debug-google-amazonFullRelease"
+            description = "Logs switch"
+        }
+        create("analytics") {
+            conditions = "release"
+        }
+    }
+
+    // Build config style
+    fswitch("easterEgg","beta", "Added manually")
 }
 
 dependencies {
