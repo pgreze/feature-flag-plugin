@@ -5,7 +5,7 @@ buildscript {
 }
 
 apply plugin: 'com.android.library'
-apply plugin: 'feature-flags'
+apply plugin: 'com.github.pgreze.feature-flags'
 
 android {
     compileSdkVersion 29

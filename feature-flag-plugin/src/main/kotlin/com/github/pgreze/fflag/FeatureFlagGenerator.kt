@@ -30,6 +30,7 @@ open class FeatureFlagGenerator : DefaultTask() {
     @get:Input
     lateinit var userId: String
 
+    // Use SetProperty? https://docs.gradle.org/current/userguide/lazy_configuration.html#sec:working_with_collections
     @get:Input
     lateinit var flags: Set<FeatureFlag>
 

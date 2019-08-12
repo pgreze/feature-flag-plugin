@@ -13,7 +13,8 @@ version = "0.1"
 gradlePlugin {
     plugins {
         create("featureFlags") {
-            id = "feature-flags"
+            // Follow https://docs.gradle.org/current/userguide/custom_plugins.html#sec:creating_a_plugin_id
+            id = "$group.feature-flags"
             implementationClass = "com.github.pgreze.fflag.FeatureFlagPlugin"
         }
     }

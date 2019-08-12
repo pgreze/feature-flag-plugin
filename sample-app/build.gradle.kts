@@ -6,7 +6,7 @@ plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("android.extensions")
-    id("feature-flags")
+    id("com.github.pgreze.feature-flags")
 }
 
 configure<AppExtension> {
