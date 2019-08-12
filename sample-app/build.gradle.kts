@@ -54,7 +54,7 @@ configure<FeatureSwitchExtension> {
     switchs {
         // Only create is expected, register is not triggered by asMap
         create("logs") {
-            conditions = "debug-google-amazonFullRelease"
+            conditions = "debug google amazonFullRelease"
             description = "Logs switch"
         }
         create("analytics") {

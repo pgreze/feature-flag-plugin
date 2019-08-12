@@ -13,6 +13,10 @@ import javax.lang.model.element.Modifier
 
 open class FeatureSwitchGenerator : DefaultTask() {
 
+    companion object {
+        const val CONDITION_SEPARATOR = " "
+    }
+
     @get:OutputDirectory
     lateinit var outputDir: File
 
@@ -52,7 +56,7 @@ open class FeatureSwitchGenerator : DefaultTask() {
     }
 
     private fun resolveSwitch(value: String): Boolean =
-        value.split("-").any { condition ->
+        value.split(CONDITION_SEPARATOR).any { condition ->
             if (condition.startsWith("@")) {
                 return@any condition.substring(1) == userId
             }
