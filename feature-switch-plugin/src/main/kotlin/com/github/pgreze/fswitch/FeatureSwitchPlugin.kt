@@ -11,8 +11,7 @@ import kotlin.reflect.KClass
 class FeatureSwitchPlugin : Plugin<Project> {
 
     override fun apply(project: Project) {
-        println("Setup FeatureSwitchPlugin")
-        project.extensions.create("fswitch", FeatureSwitchExtension::class.java)
+        project.extensions.create("featureSwitchs", FeatureSwitchExtension::class.java)
 
         project.plugins.all {
             // From butterknife plugin https://bit.ly/2KnzVbo
@@ -51,7 +50,7 @@ class FeatureSwitchPlugin : Plugin<Project> {
                 it.outputDir = output
                 // Don't consider variant.buildType.applicationIdSuffix,
                 // if package is not constant it will not compile for all variants.
-                it.applicationId = variant.mergedFlavor.applicationId
+                it.applicationId = ext.packageId ?: variant.mergedFlavor.applicationId
                 it.variantName = variant.name
                 it.userId = System.getProperty("user.name")
                 it.switchs = ext.switchs

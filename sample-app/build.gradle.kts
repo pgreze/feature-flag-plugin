@@ -2,14 +2,6 @@ import com.android.build.gradle.AppExtension
 import com.github.pgreze.fswitch.FeatureSwitchExtension
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
-buildscript {
-    repositories {
-        // Mandatory for feature-switchs transitive dependency
-        google()
-        jcenter()
-    }
-}
-
 plugins {
     id("com.android.application")
     kotlin("android")

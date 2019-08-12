@@ -1,0 +1,36 @@
+//plugins { id 'feature-switchs' }
+
+buildscript {
+    dependencies { classpath "com.github.pgreze:feature-switch-plugin:0.1" }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'feature-switchs'
+
+android {
+    compileSdkVersion 29
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 29
+    }
+
+    // Add 1 extra buildType
+    buildTypes {
+        beta {}
+    }
+
+    // Add 2 product flavor dimensions
+    flavorDimensions("store", "version")
+    productFlavors {
+        google { dimension "store" }
+        amazon { dimension "store" }
+        huawei { dimension "store" }
+        demo { dimension "version" }
+        full { dimension "version" }
+    }
+}
+
+featureSwitchs {
+    packageId "com.example.lib"
+    switchs = ["hello": "world"]
+}

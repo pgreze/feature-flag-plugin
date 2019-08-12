@@ -10,6 +10,14 @@ buildscript {
 }
 
 allprojects {
+    // Mandatory for custom plugin transitive dependencies
+    buildscript {
+        repositories {
+            google()
+            jcenter()
+        }
+    }
+
     repositories {
         google()
         jcenter()
