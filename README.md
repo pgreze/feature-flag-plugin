@@ -9,4 +9,3 @@ and plug it with Android Gradle plugin.
 ## TODO
 
 - support multiple conditions with product variant
-- remove "Condition is always" from ConstantConditionIf lint

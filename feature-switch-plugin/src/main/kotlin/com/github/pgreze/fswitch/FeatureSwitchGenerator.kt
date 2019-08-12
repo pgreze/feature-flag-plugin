@@ -37,7 +37,8 @@ open class FeatureSwitchGenerator : DefaultTask() {
         switchs.entries.forEach { (key, value) ->
             val field = FieldSpec.builder(Boolean::class.java, key)
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL)
-                .initializer(resolveSwitch(value).toString())
+                // Boolean.parseBoolean is disabling ConstantConditionIf lint
+                .initializer("Boolean.parseBoolean(\"${resolveSwitch(value)}\")")
                 .build()
             switchsFile.addField(field)
         }
