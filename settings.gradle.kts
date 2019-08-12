@@ -1,3 +1,3 @@
 include(":sample-app")
 include(":sample-lib")
-includeBuild("feature-switch-plugin")
+includeBuild("feature-flag-plugin")

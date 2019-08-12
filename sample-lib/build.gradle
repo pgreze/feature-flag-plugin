@@ -1,11 +1,11 @@
-//plugins { id 'feature-switchs' }
+//plugins { id 'feature-flags' }
 
 buildscript {
-    dependencies { classpath "com.github.pgreze:feature-switch-plugin:0.1" }
+    dependencies { classpath "com.github.pgreze:feature-flag-plugin:0.1" }
 }
 
 apply plugin: 'com.android.library'
-apply plugin: 'feature-switchs'
+apply plugin: 'feature-flags'
 
 android {
     compileSdkVersion 29
@@ -32,15 +32,15 @@ android {
     }
 }
 
-featureSwitchs {
+featureFlags {
     // Mandatory for non application consumers
     packageId "com.example.lib"
 
     // DSL style
-    switchs {
+    flags {
         "logs" { conditions = "debug" }
     }
 
     // Build config style
-    fswitch "analytics", "release", "My Javadoc"
+    flag "analytics", "release", "My Javadoc"
 }

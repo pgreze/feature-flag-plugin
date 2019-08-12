@@ -1,4 +1,4 @@
-package com.github.pgreze.fswitch
+package com.github.pgreze.fflag
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test

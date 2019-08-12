@@ -1,13 +1,11 @@
-package com.github.pgreze.fswitch
+package com.example.app
 
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import com.example.app.R
-import com.example.app.fswitch.Switchs
+import com.example.app.fflag.Flags
 import com.google.android.material.snackbar.Snackbar
-
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -17,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        if (Switchs.analytics) {
+        if (Flags.analytics) {
             TODO()
         }
 

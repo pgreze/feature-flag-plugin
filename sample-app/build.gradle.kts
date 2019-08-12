@@ -1,12 +1,12 @@
 import com.android.build.gradle.AppExtension
-import com.github.pgreze.fswitch.FeatureSwitchExtension
+import com.github.pgreze.fflag.FeatureFlagExtension
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("android.extensions")
-    id("feature-switchs")
+    id("feature-flags")
 }
 
 configure<AppExtension> {
@@ -49,13 +49,13 @@ configure<AppExtension> {
     }
 }
 
-configure<FeatureSwitchExtension> {
+configure<FeatureFlagExtension> {
     // DSL style
-    switchs {
+    flags {
         // Only create is expected, register is not triggered by asMap
         create("logs") {
             conditions = "debug google amazonFullRelease"
-            description = "Logs switch"
+            description = "Logs flag"
         }
         create("analytics") {
             conditions = "release"
@@ -63,7 +63,7 @@ configure<FeatureSwitchExtension> {
     }
 
     // Build config style
-    fswitch("easterEgg","beta", "Added manually")
+    flag("easterEgg","beta", "Added manually")
 }
 
 dependencies {

@@ -1,4 +1,4 @@
-package com.github.pgreze.fswitch
+package com.github.pgreze.fflag
 
 import com.squareup.javapoet.FieldSpec
 import com.squareup.javapoet.JavaFile
@@ -11,7 +11,7 @@ import java.io.File
 import java.util.*
 import javax.lang.model.element.Modifier
 
-open class FeatureSwitchGenerator : DefaultTask() {
+open class FeatureFlagGenerator : DefaultTask() {
 
     companion object {
         const val CONDITION_SEPARATOR = " "
@@ -31,31 +31,31 @@ open class FeatureSwitchGenerator : DefaultTask() {
     lateinit var userId: String
 
     @get:Input
-    lateinit var switchs: Set<FeatureSwitch>
+    lateinit var flags: Set<FeatureFlag>
 
     @TaskAction
     fun execute() {
         // TODO: add file comments with generated code warnings and lib info
-        val switchsFile = TypeSpec
-                .classBuilder("Switchs")
+        val flagsFile = TypeSpec
+                .classBuilder("Flags")
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
 
-        switchs.forEach { switch ->
-            val field = FieldSpec.builder(Boolean::class.java, switch.name)
+        flags.forEach { flag ->
+            val field = FieldSpec.builder(Boolean::class.java, flag.name)
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL)
                 // Boolean.parseBoolean is disabling ConstantConditionIf lint
-                .initializer("Boolean.parseBoolean(\"${resolveSwitch(switch.conditions!!)}\")")
-                .apply { switch.description?.let { addJavadoc("$it\n") } }
+                .initializer("Boolean.parseBoolean(\"${resolveFlag(flag.conditions!!)}\")")
+                .apply { flag.description?.let { addJavadoc("$it\n") } }
                 .build()
-            switchsFile.addField(field)
+            flagsFile.addField(field)
         }
 
-        JavaFile.builder("$packageId.fswitch", switchsFile.build())
+        JavaFile.builder("$packageId.fflag", flagsFile.build())
             .build()
             .writeTo(outputDir)
     }
 
-    private fun resolveSwitch(value: String): Boolean =
+    private fun resolveFlag(value: String): Boolean =
         value.split(CONDITION_SEPARATOR).any { condition ->
             if (condition.startsWith("@")) {
                 return@any condition.substring(1) == userId

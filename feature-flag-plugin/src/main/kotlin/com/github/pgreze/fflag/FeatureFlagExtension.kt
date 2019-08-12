@@ -1,37 +1,37 @@
-package com.github.pgreze.fswitch
+package com.github.pgreze.fflag
 
 import org.gradle.api.Action
 import org.gradle.api.NamedDomainObjectContainer
 import java.io.Serializable
 
-open class FeatureSwitchExtension {
+open class FeatureFlagExtension {
 
     /** Optional when used with android-application plugin */
     var packageId: String? = null
 
-    lateinit var switchs: NamedDomainObjectContainer<FeatureSwitch>
+    lateinit var flags: NamedDomainObjectContainer<FeatureFlag>
 
     /**
      * Allowing to use nice Groovy syntax:
      *
-     * featureSwitchs {
-     *     switchs {
+     * featureFlags {
+     *     flags {
      *         hello { conditions = "world" }
      *     }
      * }
      */
-    fun switchs(action: Action<in NamedDomainObjectContainer<FeatureSwitch>>) {
-        action.execute(switchs)
+    fun flags(action: Action<in NamedDomainObjectContainer<FeatureFlag>>) {
+        action.execute(flags)
     }
 
     /**
-     * Adds a new field into [switchs].
+     * Adds a new field into [flags].
      *
      * Similar to [com.android.build.gradle.internal.dsl.BuildType.buildConfigField]
      */
     @JvmOverloads
-    fun fswitch(name: String, conditions: String, description: String? = null) {
-        switchs.create(name) {
+    fun flag(name: String, conditions: String, description: String? = null) {
+        flags.create(name) {
             it.conditions = conditions
             it.description = description
         }
@@ -39,10 +39,10 @@ open class FeatureSwitchExtension {
 }
 
 // Requires a single argument constructor with name in order to be used with NamedDomainObjectContainer
-data class FeatureSwitch @JvmOverloads constructor(
+data class FeatureFlag @JvmOverloads constructor(
     /** Field name */
     var name: String,
-    /** Set of condition enabling this feature switch */
+    /** Set of condition enabling this feature flag */
     var conditions: String? = null,
     /** Optional description used in field Javadoc */
     var description: String? = null

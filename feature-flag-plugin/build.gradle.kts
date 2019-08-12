@@ -12,9 +12,9 @@ version = "0.1"
 
 gradlePlugin {
     plugins {
-        create("featureSwitchs") {
-            id = "feature-switchs"
-            implementationClass = "com.github.pgreze.fswitch.FeatureSwitchPlugin"
+        create("featureFlags") {
+            id = "feature-flags"
+            implementationClass = "com.github.pgreze.fflag.FeatureFlagPlugin"
         }
     }
 }
