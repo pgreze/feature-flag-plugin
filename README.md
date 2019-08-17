@@ -8,5 +8,4 @@ and plug it with Android Gradle plugin.
 
 ## TODO
 
-- work on compilation avoidance and late generation compared to build config?
 - write plugin tests
