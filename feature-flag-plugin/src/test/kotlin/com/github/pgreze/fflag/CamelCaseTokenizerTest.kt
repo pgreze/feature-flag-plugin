@@ -1,19 +1,21 @@
 package com.github.pgreze.fflag
 
 import com.google.common.truth.Truth.assertThat
-import org.junit.Test
+import org.spekframework.spek2.Spek
+import org.spekframework.spek2.style.specification.describe
 
-class CamelCaseTokenizerTest {
+object CamelCaseTokenizerTest : Spek({
 
-    @Test
-    fun `single value = listOf(value)`() {
-        assertThat("value".camelCaseTokens())
-            .isEqualTo(listOf("value"))
+    describe("CamelCaseTokenizer") {
+
+        it("single value = listOf(value)") {
+            assertThat("value".camelCaseTokens())
+                .isEqualTo(listOf("value"))
+        }
+
+        it("singleValue = listOf(single, value)") {
+            assertThat("singleValue".camelCaseTokens())
+                .isEqualTo(listOf("single", "value"))
+        }
     }
-
-    @Test
-    fun `singleValue = listOf(single, value)`() {
-        assertThat("singleValue".camelCaseTokens())
-            .isEqualTo(listOf("single", "value"))
-    }
-}
+})
