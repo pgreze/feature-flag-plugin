@@ -10,7 +10,7 @@ import kotlin.reflect.KClass
 
 class FeatureFlagPlugin : Plugin<Project> {
 
-    companion object {
+    internal companion object {
         const val EXTENSION_NAME = "featureFlags"
     }
 
