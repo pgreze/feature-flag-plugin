@@ -9,3 +9,4 @@ and plug it with Android Gradle plugin.
 ## TODO
 
 - write plugin tests
+- support properties file
